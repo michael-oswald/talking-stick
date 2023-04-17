@@ -42,9 +42,20 @@ function ParticipantList({preLoadParticipantArray}) {
         console.log("newArray onStickClicked", newArray)
 
         if (event.target.checked === true) {
+            //make all other check boxes not available to click
+            for (let i = 0; i < newArray.length; i++) {
+                newArray[i].isHoldingStick = false;
+                newArray[i].isStickGreyedOut = true;
+            }
+
             newArray[participantIndex].isHoldingStick = true;
+            newArray[participantIndex].isStickGreyedOut = false;
         } else { //unchecked
-            newArray[participantIndex].isHoldingStick = false;
+            //means we make all the check boxes now available to click again
+            for (let i = 0; i < newArray.length; i++) {
+                newArray[i].isHoldingStick = false;
+                newArray[i].isStickGreyedOut = false;
+            }
         }
         setParticipantArray(newArray);
     };
@@ -68,12 +79,23 @@ function ParticipantList({preLoadParticipantArray}) {
         setNewParticipantName(myValue);
     };
 
+    function isStickBeingHeld() {
+        for (let i = 0; i< participantArray.length; i++) {
+            if (participantArray[i].isHoldingStick === true) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     const handleSaveParticipantBtnClicked = () => {
 
         console.log("dude here...asdf... current array", participantArray)
         console.log("dude here...asdf...newParticipantName", newParticipantName)
 
-        let newParticipant = {name:newParticipantName, isHoldingStick:false};
+        let isStickHeldCurrently = isStickBeingHeld();
+
+        let newParticipant = {name:newParticipantName, isHoldingStick:false, isStickGreyedOut:isStickHeldCurrently};
         let newArray = [...participantArray];
         newArray.push(newParticipant);
         console.log("dude after...asdf... new array", newArray);
@@ -101,6 +123,7 @@ function ParticipantList({preLoadParticipantArray}) {
                               participantName={participant.name}
                               idx={i}
                               isHoldingStick={participant.isHoldingStick}
+                              isStickGreyedOut={participant.isStickGreyedOut}
                               onStickClicked={onStickClicked}
                               onDeleteClicked={() => onDeleteClickedParent(i)}
                         />
@@ -131,35 +154,3 @@ function ParticipantList({preLoadParticipantArray}) {
     );
 }
 export default ParticipantList;
-
-
-/*
-*         <MDBModal tabIndex='-1' show={centredModal} setShow={setCentredModal}>
-            <MDBModalDialog centered>
-                <MDBModalContent>
-                    <MDBModalHeader>
-                        <MDBModalTitle>Edit</MDBModalTitle>
-                        <MDBBtn className='btn-close' color='none' onClick={editButtonClicked}></MDBBtn>
-                    </MDBModalHeader>
-                    <MDBModalBody>
-                        <b>Player Name:</b>
-                        <MDBInput type='text' value={itemName} onChange={handleNameChange}></MDBInput>
-                        <br />
-                        <b>Player Position:</b>
-                        <Select
-                            options={positionOptions}
-                            onChange={handlePositionChange}
-                        />
-                    </MDBModalBody>
-                    <MDBModalFooter>
-                        <MDBBtn color='secondary' onClick={editButtonClicked}>
-                            Close
-                        </MDBBtn>
-                        <MDBBtn onClick={handleSavePositionBtnClicked}>Save changes</MDBBtn>
-                    </MDBModalFooter>
-                </MDBModalContent>
-            </MDBModalDialog>
-        </MDBModal>
-*
-*
-* */
