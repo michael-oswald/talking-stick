@@ -1,19 +1,32 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { useTimer } from 'react-timer-hook';
-import {MDBBtn, MDBIcon} from "mdb-react-ui-kit";
+import {
+    MDBBtn,
+    MDBIcon,
+    MDBModal, MDBModalBody,
+    MDBModalContent,
+    MDBModalDialog, MDBModalFooter,
+    MDBModalHeader
+} from "mdb-react-ui-kit";
 
 function StickTimer({ expiryTimestamp, defaultMinute }) {
+    const [basicModal, setBasicModal] = useState(false);
+
+    function toggleShow() {
+        setBasicModal(!basicModal);
+    }
+
     const {
         seconds,
         minutes,
         start,
         pause,
-        resume,
         restart,
-    } = useTimer({ autoStart:false, expiryTimestamp, onExpire: () => console.warn('onExpire called') });
+    } = useTimer({ autoStart:false, expiryTimestamp, onExpire: () => toggleShow() });
+
 
     return (
-
+<>
         <div style={{textAlign: 'center'}}>
 
             <div style={{fontSize: '100px'}}>
@@ -26,15 +39,31 @@ function StickTimer({ expiryTimestamp, defaultMinute }) {
                 <MDBIcon fas icon="pause" />
             </MDBBtn>&nbsp;
             <MDBBtn onClick={() => {
-                // Restarts to 5 minutes timer
+                // Restarts to defaultMinute prop passed in
                 const time = new Date();
-
                 time.setSeconds(time.getSeconds() + (defaultMinute * 60));
-                console.log("dude stick timer", time);
-                console.log("dude stick timer defaultMinute",defaultMinute );
                 restart(time);
             }}><MDBIcon fas icon="redo" /></MDBBtn>
         </div>
+    <MDBModal show={basicModal} setShow={setBasicModal} tabIndex='-1'>
+        <MDBModalDialog>
+            <MDBModalContent>
+                <MDBModalHeader>
+                    <MDBBtn className='btn-close' color='none' onClick={toggleShow}></MDBBtn>
+                </MDBModalHeader>
+                <MDBModalBody><MDBIcon color='danger' fas icon="flag" /> {defaultMinute} minute timer has expired! <br />
+                🥢 Consider switching the talking stick holder.
+                </MDBModalBody>
+
+                <MDBModalFooter>
+                    <MDBBtn color='secondary' onClick={toggleShow}>
+                        Close
+                    </MDBBtn>
+                </MDBModalFooter>
+            </MDBModalContent>
+        </MDBModalDialog>
+    </MDBModal>
+        </>
     );
 }
 

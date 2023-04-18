@@ -1,9 +1,7 @@
 import React from "react";
 import {MDBBtn, MDBCheckbox, MDBIcon} from "mdb-react-ui-kit";
+
 function Participant({participantName, idx, isHoldingStick, isStickGreyedOut, onStickClicked, onDeleteClicked}) {
-    console.log("In Participant, participantName ",participantName);
-    console.log("In Participant, idx: ", idx);
-    console.log("In Participant, isHoldingStick: ", isHoldingStick);
 
     let checkbox = '';
     if (isHoldingStick === true) {

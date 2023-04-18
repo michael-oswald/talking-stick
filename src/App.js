@@ -55,7 +55,7 @@ export default function App() {
                 <MDBContainer>
                     <MDBRow>
                         <MDBCol size='6'>
-                            <ParticipantList/>
+                            <ParticipantList />
                         </MDBCol>
                         <MDBCol size='6'>
 

@@ -13,33 +13,16 @@ import {
 } from "mdb-react-ui-kit";
 
 
-function ParticipantList({preLoadParticipantArray}) {
+function ParticipantList() {
 
     const [participantArray, setParticipantArray] = useState([]);
 
     const [centredModal, setCentredModal] = useState(false);
     const [newParticipantName, setNewParticipantName] = useState('');
 
-    // maybe make some dummy ones here first???
-
-    //copy the participantArray into a new array
-    //let rows = [];
-    /*if (preLoadParticipantArray) { //if participants were passed in...
-        rows = [... participantArray];
-        //maybe just 1. loop through the preLoadParticipantArray and 2. add them to an array, then 3. setParticipantArray state
-        for (let i = 0; i < preLoadParticipantArray.length; i++) {
-            let name = preLoadParticipantArray[i];
-            let newParticipant = {name:name, isHoldingStick:false};
-            rows.push(newParticipant);
-        }
-        //add to state here, but I think this feature is for later....
-    }*/
 
     const onStickClicked = (event, participantIndex) => {
-        console.log("onStickClicked event", event);
-        console.log("onStickClicked checked?", event.target.checked);
         let newArray = [...participantArray];
-        console.log("newArray onStickClicked", newArray)
 
         if (event.target.checked === true) {
             //make all other check boxes not available to click
@@ -61,8 +44,6 @@ function ParticipantList({preLoadParticipantArray}) {
     };
 
     const onDeleteClickedParent = (index) => {
-        console.log("onDeleteClicked");
-        console.log("index", index);
         let newArray = [...participantArray];
         newArray.splice(index, 1);
         setParticipantArray(newArray);
@@ -90,8 +71,6 @@ function ParticipantList({preLoadParticipantArray}) {
 
     const handleSaveParticipantBtnClicked = () => {
 
-        console.log("dude here...asdf... current array", participantArray)
-        console.log("dude here...asdf...newParticipantName", newParticipantName)
         let isStickHeldCurrently = isStickBeingHeld();
         let newArray = [...participantArray];
         //check if its csv format:
