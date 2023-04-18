@@ -92,18 +92,23 @@ function ParticipantList({preLoadParticipantArray}) {
 
         console.log("dude here...asdf... current array", participantArray)
         console.log("dude here...asdf...newParticipantName", newParticipantName)
-
         let isStickHeldCurrently = isStickBeingHeld();
-
-        let newParticipant = {name:newParticipantName, isHoldingStick:false, isStickGreyedOut:isStickHeldCurrently};
         let newArray = [...participantArray];
-        newArray.push(newParticipant);
-        console.log("dude after...asdf... new array", newArray);
+        //check if its csv format:
+        if (newParticipantName.includes(",")) {
+            const myArray = newParticipantName.split(",");
+            //loop through array here:
+            for (let i = 0; i < myArray.length; i++) {
+                let nameInArray = myArray[i];
+                let newParticipant = {name:nameInArray, isHoldingStick:false, isStickGreyedOut:isStickHeldCurrently};
+                newArray.push(newParticipant);
+            }
+        } else {
+            let newParticipant = {name:newParticipantName, isHoldingStick:false, isStickGreyedOut:isStickHeldCurrently};
+            newArray.push(newParticipant);
+        }
         setParticipantArray(newArray);
         setCentredModal(!centredModal);
-
-        console.log("dude after...asdf... current array", participantArray);
-
     };
 
     return (
@@ -118,7 +123,7 @@ function ParticipantList({preLoadParticipantArray}) {
                 </MDBTableHead>
                 <MDBTableBody>
                     {participantArray.map((participant, i) =>
-                        <Participant    
+                        <Participant
                               key={i}
                               participantName={participant.name}
                               idx={i}
@@ -140,6 +145,9 @@ function ParticipantList({preLoadParticipantArray}) {
                         <MDBModalBody>
                             <b>Participant Name:</b>
                             <MDBInput type='text' value={newParticipantName} onChange={handleNewParticipantNameChange}></MDBInput>
+                            <div id='textExample1' className='form-text'>
+                                You can also add a list of participants in comma separated format <br /> Ex: John,Sue,Emily
+                            </div>
                         </MDBModalBody>
                         <MDBModalFooter>
                             <MDBBtn color='secondary' onClick={newParticipantClicked}>

@@ -16,7 +16,7 @@ import StickTimer from "./StickTimer";
 
 export default function App() {
 
-    const [timerDuration, setTimerDuration] = useState(299); //default to 4m 59sec (299 seconds)
+    const [timerDuration, setTimerDuration] = useState(5); //default to 5m
     const [centredModal, setCentredModal] = useState(false);
 
     const onDurationEditClicked = () => {
@@ -32,18 +32,15 @@ export default function App() {
         setTimerDuration(myValue);
     };
 
-    function secondsToDateObj(seconds){
+    function secondsToDateObj(minutes) {
         const time = new Date();
-        time.setSeconds(time.getSeconds() + seconds); //default to 4m 59sec
+        time.setMinutes(time.getMinutes() + minutes);
         return time;
     }
 
-    function secondsToMinutesAndSecondsString(seconds){
-        const minutes = Math.floor(seconds / 60);
-        const sec = seconds - minutes * 60;
-        return minutes + ":" + sec;
+    function minuteToString(minutes) {
+        return minutes + " minutes";
     }
-
 
     return (
         <>
@@ -61,12 +58,13 @@ export default function App() {
                             <ParticipantList/>
                         </MDBCol>
                         <MDBCol size='6'>
-                            {/*  //Need button here to modify    */}
-                            <p>Timer Duration: {secondsToMinutesAndSecondsString(timerDuration)}</p>
-                            <MDBBtn color='secondary' className='text-right' onClick={onDurationEditClicked}>
-                                <MDBIcon far icon="edit" />
+
+                            <StickTimer expiryTimestamp={secondsToDateObj(timerDuration)} defaultMinute={timerDuration}/>
+
+                            <br />
+                            <MDBBtn color='link' className='text-right' onClick={onDurationEditClicked}>
+                                <MDBIcon far icon="edit"/>  Change Duration ({minuteToString(timerDuration)})
                             </MDBBtn>
-                            <StickTimer expiryTimestamp={secondsToDateObj(timerDuration)}/>
                         </MDBCol>
                     </MDBRow>
                 </MDBContainer>
@@ -74,12 +72,17 @@ export default function App() {
                     <MDBModalDialog centered>
                         <MDBModalContent>
                             <MDBModalHeader>
-                                <MDBModalTitle>Add New Participant</MDBModalTitle>
+                                <MDBModalTitle>Change Default Time Duration</MDBModalTitle>
                                 <MDBBtn className='btn-close' color='none' onClick={onDurationEditClicked}></MDBBtn>
                             </MDBModalHeader>
                             <MDBModalBody>
                                 <b>Timer Duration:</b>
-                                <MDBInput type='text' value={timerDuration} onChange={handleTimeDurationChanged}></MDBInput>
+                                <MDBInput type='text' value={timerDuration}
+                                          onChange={handleTimeDurationChanged}></MDBInput>
+                                <div id='textExample1' className='form-text'>
+                                    You'll need to click the <MDBIcon fas icon="redo" /> blue restart timer button for
+                                    the new duration to take effect. (after you save changes)
+                                </div>
                             </MDBModalBody>
                             <MDBModalFooter>
                                 <MDBBtn color='secondary' onClick={onDurationEditClicked}>
@@ -90,8 +93,6 @@ export default function App() {
                         </MDBModalContent>
                     </MDBModalDialog>
                 </MDBModal>
-
-
             </MDBContainer>
         </>
     );
