@@ -48,7 +48,25 @@ export default function App() {
                 <MDBTypography className='display-1 pb-3 mb-3 border-bottom'>
                     🎙 Talking Stick 🥢
                 </MDBTypography>
-                <p>talking stick description here...</p>
+            </MDBContainer>
+            <MDBContainer>
+                <p>
+                    <b>What is the talking stick?</b>
+                    <br/>
+                    It is a communication practice by Native Americans, where the person holding the talking stick
+                    is the only person that can talk. Everyone else must listen until the talking stick it put down.
+                    This ensures everyone has a chance to share their voice, and be understood.
+                    This application provides this communication practice for virtual meetings.
+                    <br/>
+                    <br/>
+                    <b>Steps to use this app:</b>
+                    <br/>
+                    1. Add participants below.<br/>
+                    2. Select a participant to hold the talking stick (check box).<br/>
+                    3. Optionally specify a timer for each talking session.<br/>
+                    4. Continue passing the talking stick in your virtual meeting as needed.
+
+                </p>
                 <br/>
                 <br/>
 
