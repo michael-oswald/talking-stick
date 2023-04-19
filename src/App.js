@@ -8,7 +8,15 @@ import {
     MDBBtn,
     MDBModal,
     MDBModalDialog,
-    MDBModalContent, MDBModalHeader, MDBModalTitle, MDBModalBody, MDBInput, MDBModalFooter
+    MDBModalContent,
+    MDBModalHeader,
+    MDBModalTitle,
+    MDBModalBody,
+    MDBInput,
+    MDBModalFooter,
+    MDBPopover,
+    MDBPopoverHeader,
+    MDBPopoverBody
 } from 'mdb-react-ui-kit';
 import React, {useState} from "react";
 import ParticipantList from "./ParticipantList";
@@ -46,31 +54,29 @@ export default function App() {
         <>
             <MDBContainer className="text-center">
                 <MDBTypography className='display-1 pb-3 mb-3 border-bottom'>
-                    🎙 Talking Stick 🥢
+                    Talking Stick
                 </MDBTypography>
             </MDBContainer>
             <MDBContainer>
-                <p>
+                <MDBTypography className='lead mb-0  border-bottom'>
                     <b>What is the talking stick?</b>
                     <br/>
-                    It is a communication practice by Native Americans, where the person holding the talking stick
-                    is the only person that can talk. Everyone else must listen until the talking stick it put down.
+                    It is a communication practice from the Native Americans; where the person holding the talking stick
+                    is the only person that can talk. When the person is done speaking the stick is put down and another person can pick it up and speak.
                     This ensures everyone has a chance to share their voice, and be understood.
                     This application provides this communication practice for virtual meetings.
-                    <br/>
-                    <br/>
-                    <b>Steps to use this app:</b>
-                    <br/>
-                    1. Add participants below.<br/>
-                    2. Select a participant to hold the talking stick (check box).<br/>
-                    3. Optionally specify a timer for each talking session.<br/>
-                    4. Continue passing the talking stick in your virtual meeting as needed.
+                    <MDBPopover color='link' btnChildren='Click here for instructions' placement='left' dismiss>
+                        <MDBPopoverHeader>Steps to use this app:</MDBPopoverHeader>
+                        <MDBPopoverBody>1. Add participants below.<br/>
+                            2. Select a participant to hold the talking stick (check box).<br/>
+                            3. Optionally specify a timer for each talking session.<br/>
+                            4. Continue passing the talking stick in your virtual meeting as needed.</MDBPopoverBody>
+                    </MDBPopover>
+                </MDBTypography>
 
-                </p>
-                <br/>
                 <br/>
 
-                <MDBContainer>
+                <MDBContainer className="text-center">
                     <MDBRow>
                         <MDBCol size='6'>
                             <ParticipantList />
@@ -80,7 +86,7 @@ export default function App() {
                             <StickTimer expiryTimestamp={secondsToDateObj(timerDuration)} defaultMinute={timerDuration}/>
 
                             <br />
-                            <MDBBtn color='link' className='text-right' onClick={onDurationEditClicked}>
+                            <MDBBtn color='link'  onClick={onDurationEditClicked}>
                                 <MDBIcon far icon="edit"/>  Change Duration ({minuteToString(timerDuration)})
                             </MDBBtn>
                         </MDBCol>
